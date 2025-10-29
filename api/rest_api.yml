@@ -26,68 +26,7 @@ tags:
     description: Everything about Users
 paths:
   /comments:
-    get:
-      parameters:
-      - description: Страница
-        in: query
-        name: page
-        required: true
-        schema:
-          type: integer
-      - description: ID поста
-        in: query
-        name: post_id
-        required: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Comment'
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      summary: Получение списка комментариев
-      tags:
-      - comments
-    post:
-      requestBody:
-        required: true
-        description: Объект Comment
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Comment'
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Comment'
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-      summary: Добавление объекта Comment
-      tags:
-      - comments
+
   /comments/{id}:
     delete:
       parameters:
@@ -140,7 +79,7 @@ paths:
       summary: Редактирование объекта Comment
       tags:
       - comments
-  /location:
+  /locations:
     get:
       responses:
         "200":
@@ -160,7 +99,7 @@ paths:
       summary: Получение текущей геопозиции
       tags:
       - geo
-  /post:
+  /posts:
     get:
       parameters:
       - description: Страница
@@ -292,7 +231,77 @@ paths:
       summary: Редактирование объекта Post
       tags:
       - posts
-  /posts/{id}/dislike:
+  /posts/{id}/comments:
+    get:
+      parameters:
+      - description: Страница
+        in: query
+        name: page
+        required: true
+        schema:
+          type: integer
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Получение списка комментариев
+      tags:
+      - posts
+    post:
+      parameters:
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        description: Объект Comment
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Добавление объекта Comment
+      tags:
+      - posts
+  /posts/{id}/dislikes:
     post:
       parameters:
       - description: ID объекта Post
@@ -313,7 +322,7 @@ paths:
       summary: Проставление dislike объекту Post
       tags:
       - posts
-  /posts/{id}/like:
+  /posts/{id}/likes:
     post:
       parameters:
       - description: ID объекта Post
@@ -361,7 +370,7 @@ paths:
       summary: Получение списка пользователей на которых подписан
       tags:
       - users
-  /users/{id}/subscribe:
+  /users/{id}/subscribers:
     post:
       parameters:
       - description: ID объекта User
@@ -382,7 +391,7 @@ paths:
       summary: Подписка на пользователя
       tags:
       - users
-  /users/{id}/unsubscribe:
+  /users/{id}/unsubscribers:
     post:
       parameters:
       - description: ID объекта User

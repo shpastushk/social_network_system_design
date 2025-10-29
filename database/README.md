@@ -101,3 +101,28 @@ IOPS (3) <br>
 Throughput (1) <br>
 Capacity (1) <br>
 Кол-во SSD (nVME) = 1
+
+- Подписка/отписка на пользователей
+
+Capacity <br>
+Per year = 2кб/с * 86400 * 365 = 63Гб <br>
+IOPS = 2330 <br>
+Throughput = 49 кб/с
+
+HDD <br>
+IOPS (24) <br>
+Throughput (24) <br>
+Capacity (1) <br>
+Кол-во HDD = 24
+
+SSD (SATA) <br>
+IOPS (3) <br>
+Throughput (1) <br>
+Capacity (1) <br>
+Кол-во SSD (SATA) = 3
+
+SSD (nVME) <br>
+IOPS (1) <br>
+Throughput (1) <br>
+Capacity (1) <br>
+Кол-во SSD (nVME) = 1

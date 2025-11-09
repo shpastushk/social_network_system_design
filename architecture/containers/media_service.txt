@@ -1,0 +1,31 @@
+@startuml
+!include <C4/C4_Container>
+
+title Media System Containers Diagram for Travel Social Media
+
+Person(User, "User", "A user of the system")
+
+Container(APIGateway, "API Gateway", "Proxy for users requests")
+
+System_Boundary(systemMedia, "Media service") {
+   Container(MediaService, "Media service", "Go", "Save/delete data to CDN")
+
+}
+
+System_Boundary(system2, "Posts system") {
+   Container(Kafka, "Kafka")
+    Container(PostsService, "Posts service", "Go", "Process requests to posts")
+}
+
+
+ContainerDb(CDN, "CDN", "S3 storages", "Stores media information")
+
+Rel(User, APIGateway, "Send photos of posts","REST API")
+Rel(APIGateway, MediaService, "GRPC")
+Rel(User, CDN, "Get media of posts", "REST API")
+Rel(MediaService, CDN, "Save/delete media of posts", "REST API")
+Rel(PostsService, Kafka, "Info about new/delete posts")
+Rel(MediaService, Kafka, "Get data about deleted posts")
+
+
+@enduml

@@ -1,0 +1,27 @@
+@startuml
+!include <C4/C4_Container>
+
+title Users System Containers Diagram for Travel Social Media
+
+Person(User, "User", "A user of the system")
+
+Container(APIGateway, "API Gateway", "Proxy for users requests")
+
+System_Boundary(system, "Users system") {
+   Container(UsersService, "Users service", "Go", "Process requests to users")
+   ContainerDb(UsersDB, "Users Database", "Postgres", "Stores information about users and relations between users")
+}
+
+System_Boundary(system2, "Posts system") {
+   Container(Kafka, "Kafka")
+   Container(PostsService, "Posts service", "Go", "Process requests to posts")
+}
+
+
+Rel(User, APIGateway, "Queries about users relationships", "REST API")
+Rel(APIGateway, UsersService, "Makes users queries", "grpc")
+Rel(UsersService, UsersDB, "Create update delete users")
+Rel(UsersService, Kafka, "Data about changed relationthips between users")
+Rel(PostsService, Kafka, "Info about changed users relationships")
+
+@enduml

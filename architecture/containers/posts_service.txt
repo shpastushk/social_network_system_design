@@ -1,0 +1,38 @@
+@startuml
+!include <C4/C4_Container>
+
+title Posts System Containers Diagram for Travel Social Media
+
+Person(User, "User", "A user of the system")
+
+Container(APIGateway, "API Gateway", "Proxy for users requests")
+
+System_Boundary(system, "Posts system") {
+   Container(PostsService, "Posts service", "Go", "Process requests to posts")
+   ContainerDb(PostsDB, "Posts Database", "Postgis", "Stores information about posts/comments/likes")
+   Container(PreparedService, "Prepared Service", "Go", "Precess data about users and their posts")
+   ContainerDb(TarantoolDB, "Prepared Database", "Tarantool", "Stores information about users and their posts")
+   Container(Kafka, "Kafka")
+}
+
+System_Boundary(systemMedia, "Media service") {
+   Container(MediaService, "Media service", "Go", "Save/delete data to CDN")
+}
+
+System_Boundary(systemUser, "Users system") {
+   Container(KafkaUser, "Kafka")
+   Container(UsersService, "Users service", "Go", "Process requests to users")
+}
+
+Rel(User, APIGateway, "REST API")
+Rel(APIGateway, PostsService, "Makes posts queries", "GRPC")
+Rel(PostsService, PostsDB, "Create update get posts/likes/comments")
+Rel(PreparedService, TarantoolDB, "Save data about users posts")
+Rel(PostsService, Kafka, "Info about new/delete posts")
+Rel(PreparedService,Kafka, "Get data about posts")
+Rel(APIGateway, PreparedService, "Queries")
+Rel(MediaService, Kafka, "Get data about deleted posts")
+Rel(UsersService, KafkaUser, "Data about changed relationthips between users")
+Rel(PreparedService, KafkaUser, "Info about changed users relationships")
+
+@enduml

@@ -25,7 +25,9 @@ SSD (nVME) <br>
 IOPS (6) <br>
 Throughput (1) <br>
 Capacity (1) <br>
-Кол-во SSD (nVME) = 6
+Кол-во SSD (nVME) = 6 <br>
+
+Используем диски SSD (SATA) = 60 <br>
 
 - Комментарии
 
@@ -52,6 +54,8 @@ Throughput (1) <br>
 Capacity (1) <br>
 Кол-во SSD (nVME) = 24
 
+Используем диски SSD (SATA) = 233 <br>
+
 - Посты
 
 Capacity <br>
@@ -76,6 +80,8 @@ IOPS (3) <br>
 Throughput (1) <br>
 Capacity (1) <br>
 Кол-во SSD (nVME) = 1
+
+Используем диски SSD (SATA) = 24 <br>
 
 - Медиаданные
 
@@ -102,6 +108,8 @@ Throughput (1) <br>
 Capacity (1) <br>
 Кол-во SSD (nVME) = 1
 
+Используем диски SSD (SATA) = 24 <br>
+
 - Подписка/отписка на пользователей
 
 Capacity <br>
@@ -126,3 +134,5 @@ IOPS (1) <br>
 Throughput (1) <br>
 Capacity (1) <br>
 Кол-во SSD (nVME) = 1
+
+Используем диски SSD (SATA) = 3 <br>

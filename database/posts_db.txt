@@ -1,17 +1,6 @@
 // Use DBML to define your database structure
 // Docs: https://dbml.dbdiagram.io/docs
 
-Table subscribers {
-  subscribing_user_id integer
-  subscribed_user_id integer
-  created_at timestamp
-}
-
-Table users {
-  id integer [primary key]
-  username varchar
-}
-
 Table comments {
   id integer [primary key]
 	user_id integer [not null]
@@ -36,16 +25,6 @@ Table likes {
   created_at timestamp [not null]
 }
 
-Ref user_posts: posts.user_id > users.id // many-to-one
-
-Ref user_comments: comments.user_id > users.id // many-to-one
-
 Ref post_comments: comments.post_id > posts.id // many-to-one
 
-Ref user_likes: likes.user_id > users.id // many-to-one
-
 Ref post_likes: likes.post_id > posts.id // many-to-one
-
-Ref: users.id < subscribers.subscribing_user_id
-
-Ref: users.id < subscribers.subscribed_user_id

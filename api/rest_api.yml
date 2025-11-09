@@ -391,8 +391,7 @@ paths:
       summary: Подписка на пользователя
       tags:
       - users
-  /users/{id}/unsubscribers:
-    post:
+    delete:
       parameters:
       - description: ID объекта User
         in: path

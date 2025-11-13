@@ -1,0 +1,468 @@
+openapi: 3.0.4
+info:
+  title: Swagger Travel Social Media - OpenAPI 3.0
+  description: |-
+    Travel Social Media
+  termsOfService: https://swagger.io/terms/
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.12
+externalDocs:
+  description: Find out more about Swagger
+  url: https://swagger.io
+servers:
+  - url: https://travel.swagger.io/api/v3
+tags:
+  - name: posts
+    description: Everything about Posts
+  - name: comments
+    description: Everything about Comments
+  - name: geo
+    description: GEO functions
+  - name: users
+    description: Everything about Users
+paths:
+  /comments:
+
+  /comments/{id}:
+    delete:
+      parameters:
+      - description: ID объекта Comment
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Удаление объекта Comment
+      tags:
+      - comments
+    post:
+      parameters:
+      - description: ID объекта Comment
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Объект Comment
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Редактирование объекта Comment
+      tags:
+      - comments
+  /locations:
+    get:
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: number
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Получение текущей геопозиции
+      tags:
+      - geo
+  /posts:
+    get:
+      parameters:
+      - description: Страница
+        in: query
+        name: page
+        required: true
+        schema:
+          type: integer
+      - description: ID пользователя
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+      - description: Latitude точки
+        in: query
+        name: lat
+        schema:
+          type: number
+      - description: Longitude точки
+        in: query
+        name: lon
+        schema:
+          type: number
+      - description: Радиус поиска от точки
+        in: query
+        name: radius
+        schema:
+          type: integer
+      - description: Порядок сортировки (по популярности, в порядке подписания)
+        in: query
+        name: order
+        schema:
+          type: string
+          enum: ["sub_date", "popular", "-sub_date", "-popular"]
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+      summary: Получение списка постов
+      tags:
+      - posts
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                post:
+                  $ref: '#/components/schemas/Post'
+                photos:
+                  type: array
+                  items:
+                    type: string
+                    format: binary
+                  description: Optional array of photos.
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Добавление объекта Post
+      tags:
+      - posts
+  /posts/{id}:
+    delete:
+      parameters:
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Удаление объекта Post
+      tags:
+      - posts
+    post:
+      parameters:
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        description: Объект Post
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Post'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Редактирование объекта Post
+      tags:
+      - posts
+  /posts/{id}/comments:
+    get:
+      parameters:
+      - description: Страница
+        in: query
+        name: page
+        required: true
+        schema:
+          type: integer
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Comment'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Получение списка комментариев
+      tags:
+      - posts
+    post:
+      parameters:
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      requestBody:
+        required: true
+        description: Объект Comment
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Comment'
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Добавление объекта Comment
+      tags:
+      - posts
+  /posts/{id}/dislikes:
+    post:
+      parameters:
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Проставление dislike объекту Post
+      tags:
+      - posts
+  /posts/{id}/likes:
+    post:
+      parameters:
+      - description: ID объекта Post
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Проставление like объекту Post
+      tags:
+      - posts
+  /users:
+    get:
+      parameters:
+      - description: Страница
+        in: query
+        name: page
+        required: true
+        schema:
+          type: integer
+      - description: ID пользователя
+        in: query
+        name: user_id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+      summary: Получение списка пользователей на которых подписан
+      tags:
+      - users
+  /users/{id}/subscribers:
+    post:
+      parameters:
+      - description: ID объекта User
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Подписка на пользователя
+      tags:
+      - users
+    delete:
+      parameters:
+      - description: ID объекта User
+        in: path
+        name: id
+        required: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+      summary: Отписка от пользователя
+      tags:
+      - users
+components:
+  schemas:
+    Comment:
+      properties:
+        id:
+          type: integer
+        published_at:
+          type: string
+        text:
+          type: string
+        user:
+          $ref: '#/components/schemas/User'
+      type: object
+    Post:
+      properties:
+        comments:
+          items:
+            $ref: '#/components/schemas/Comment'
+          type: array
+        dislikes:
+          type: integer
+        id:
+          type: integer
+        likes:
+          type: integer
+        photo_urls:
+          items:
+            type: string
+          type: array
+        point:
+          items:
+            type: number
+          type: array
+        published_at:
+          type: string
+        text:
+          type: string
+      type: object
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+      required:
+        - code
+        - message

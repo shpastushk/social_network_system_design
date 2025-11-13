@@ -1,0 +1,17 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table subscriptions {
+  subscribing_user_id integer
+  subscribed_user_id integer
+  created_at timestamp
+}
+
+Table users {
+  id integer [primary key]
+  username varchar
+}
+
+Ref: users.id < subscriptions.subscribing_user_id
+
+Ref: users.id < subscriptions.subscribed_user_id

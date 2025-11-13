@@ -1,0 +1,30 @@
+// Use DBML to define your database structure
+// Docs: https://dbml.dbdiagram.io/docs
+
+Table comments {
+  id integer [primary key]
+	user_id integer [not null]
+	text string [not null]
+	published_at timestamp [not null]
+	post_id integer [not null]
+}
+
+Table posts {
+  id integer [primary key]
+	text string [not null]
+	photo_urls string[]
+  user_id integer [not null]
+	point geometry.Point
+	published_at timestamp [not null]
+}
+
+Table likes {
+  post_id integer [not null]
+  user_id integer [not null]
+  is_like bool [not null]
+  created_at timestamp [not null]
+}
+
+Ref post_comments: comments.post_id > posts.id // many-to-one
+
+Ref post_likes: likes.post_id > posts.id // many-to-one

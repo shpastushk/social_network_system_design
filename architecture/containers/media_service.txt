@@ -12,18 +12,15 @@ System_Boundary(systemMedia, "Media service") {
 
 }
 
-System_Boundary(system2, "Posts system") {
-   Container(Kafka, "Kafka")
-    Container(PostsService, "Posts service", "Go", "Process requests to posts")
-}
-
+Container(Kafka, "Kafka")
+Container(PostsService, "Posts system", "Software system", "Process posts queries")
 
 ContainerDb(CDN, "CDN", "S3 storages", "Stores media information")
 
-Rel(User, APIGateway, "Send photos of posts","REST API")
-Rel(APIGateway, MediaService, "GRPC")
-Rel(User, CDN, "Get media of posts", "REST API")
-Rel(MediaService, CDN, "Save/delete media of posts", "REST API")
+Rel(User, APIGateway, "Send photos of posts","REST")
+Rel(APIGateway, MediaService, "REST")
+Rel(User, CDN, "Get media of posts", "REST")
+Rel(MediaService, CDN, "Save/delete media of posts", "REST")
 Rel(PostsService, Kafka, "Info about new/delete posts")
 Rel(MediaService, Kafka, "Get data about deleted posts")
 

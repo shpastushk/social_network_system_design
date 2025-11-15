@@ -5,14 +5,12 @@ title System Context Diagram for Travel Social Media
 
 Person(User, "User", "A user of the system")
 
-Container(APIGateway, "API Gateway", "Software system", "Proxy for users requests")
-Container(PostsService, "Posts system", "Software system", "Process posts queries")
-Container(MediaService, "Media system", "Software system", "Process media queries")
-Container(UsersService, "Users system", "Software system", "Process users queries")
+Container(PostsSystem, "Posts system", "Software system", "Process posts queries")
+Container(MediaSystem, "Media system", "Software system", "Process media queries")
+Container(UsersSystem, "Users system", "Software system", "Process users queries")
 
-Rel(User, APIGateway, "REST API")
-Rel(APIGateway, PostsService, "Create/update/delete/get posts/comments/likes")
-Rel(APIGateway, MediaService, "Load/delete photos of posts")
-Rel(APIGateway, UsersService, "Save users relationships")
+Rel(User, PostsSystem, "Create/update/delete/get posts/comments/likes")
+Rel(User, MediaSystem, "Load/delete photos of posts")
+Rel(User, UsersSystem, "Save users relationships")
 
 @enduml

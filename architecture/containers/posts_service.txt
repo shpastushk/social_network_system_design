@@ -10,29 +10,25 @@ Container(APIGateway, "API Gateway", "Proxy for users requests")
 System_Boundary(system, "Posts system") {
    Container(PostsService, "Posts service", "Go", "Process requests to posts")
    ContainerDb(PostsDB, "Posts Database", "Postgis", "Stores information about posts/comments/likes")
-   Container(PreparedService, "Prepared Service", "Go", "Precess data about users and their posts")
-   ContainerDb(TarantoolDB, "Prepared Database", "Tarantool", "Stores information about users and their posts")
+   Container(FeedService, "Feed Service", "Go", "Process data about users and their posts")
+   ContainerDb(TarantoolDB, "Feed Database", "Tarantool", "Stores information about users and their posts")
    Container(Kafka, "Kafka")
 }
 
-System_Boundary(systemMedia, "Media service") {
-   Container(MediaService, "Media service", "Go", "Save/delete data to CDN")
-}
+Container(MediaSystem, "Media system", "Software system", "Process media queries")
+Container(KafkaUser, "Kafka")
+Container(UsersSystem, "Users system", "Software system", "Process users queries")
 
-System_Boundary(systemUser, "Users system") {
-   Container(KafkaUser, "Kafka")
-   Container(UsersService, "Users service", "Go", "Process requests to users")
-}
 
-Rel(User, APIGateway, "REST API")
-Rel(APIGateway, PostsService, "Makes posts queries", "GRPC")
+Rel(User, APIGateway, "REST")
+Rel(APIGateway, PostsService, "Makes posts queries", "REST")
 Rel(PostsService, PostsDB, "Create update get posts/likes/comments")
-Rel(PreparedService, TarantoolDB, "Save data about users posts")
+Rel(FeedService, TarantoolDB, "Save data about users posts")
 Rel(PostsService, Kafka, "Info about new/delete posts")
-Rel(PreparedService,Kafka, "Get data about posts")
-Rel(APIGateway, PreparedService, "Queries")
-Rel(MediaService, Kafka, "Get data about deleted posts")
-Rel(UsersService, KafkaUser, "Data about changed relationthips between users")
-Rel(PreparedService, KafkaUser, "Info about changed users relationships")
+Rel(FeedService, Kafka, "Get data about posts")
+Rel(APIGateway, FeedService, "Queries")
+Rel(MediaSystem, Kafka, "Get data about deleted posts")
+Rel(UsersSystem, KafkaUser, "Data about changed relationthips between users")
+Rel(FeedService, KafkaUser, "Info about changed users relationships for feed service (changed feed posts for user)")
 
 @enduml

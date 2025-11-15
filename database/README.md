@@ -27,13 +27,19 @@ Throughput (1) <br>
 Capacity (1) <br>
 Кол-во SSD (nVME) = 6 <br>
 
-Используем диски SSD (SATA) = 60 <br>
+Используем диски SSD (nVME) = 6 <br>
 
 - Комментарии
 
 Capacity <br>
 Per year = 116кб/с * 86400 * 365 = 3.7Тб <br>
 IOPS = 232638 <br>
+
+Считаем IOPS <br>
+RPS (read) = 10_000_000 * 2000 (200 постов в день * 10 комментариев у каждого) / 86400 = 231481 <br /> 
+RPS (write) = 10_000_000 * 10 / 86400 = 1157  <br />
+Итого = 231481 + 1157 = 232638
+
 Throughput = 23 мб/с
 
 HDD <br>
@@ -54,7 +60,7 @@ Throughput (1) <br>
 Capacity (1) <br>
 Кол-во SSD (nVME) = 24
 
-Используем диски SSD (SATA) = 233 <br>
+Используем диски SSD (nVME) = 24 <br>
 
 - Посты
 

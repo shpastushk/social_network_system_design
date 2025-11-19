@@ -1,0 +1,16 @@
+@startuml
+!include <C4/C4_Container>
+
+title System Context Diagram for Travel Social Media
+
+Person(User, "User", "A user of the system")
+
+Container(PostsSystem, "Posts system", "Software system", "Process posts queries")
+Container(MediaSystem, "Media system", "Software system", "Process media queries")
+Container(UsersSystem, "Users system", "Software system", "Process users queries")
+
+Rel(User, PostsSystem, "Create/update/delete/get posts/comments/likes")
+Rel(User, MediaSystem, "Load/delete photos of posts")
+Rel(User, UsersSystem, "Save users relationships")
+
+@enduml
